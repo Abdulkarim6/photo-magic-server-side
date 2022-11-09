@@ -44,9 +44,9 @@ async function run() {
             res.send(result)
         });
 
-        //get reviews data from database
-        app.get('/reviews', async (req, res) => {
-            let query = {}; 
+        //get MyReviews data from database
+        app.get('/myreviews', async (req, res) => {
+            let query = {};
             if (req.query.email) {
                 query = {
                     email: req.query.email
@@ -55,6 +55,22 @@ async function run() {
             const cursor = reviewCollection.find(query);
             const reviews = await cursor.toArray();
             res.send(reviews)
+        });
+
+        //get Reviws data from database for eatch service
+        app.get('/reviews', async (req, res) => {
+
+            console.log(req.query._id);
+
+            let query = {};
+            if (req.query._id) {
+                query = {
+                    service: req.query._id
+                }
+            }
+            const cursor = reviewCollection.find(query);
+            const orders = await cursor.toArray();
+            res.send(orders)
         });
 
     }
