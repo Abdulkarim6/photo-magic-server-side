@@ -39,10 +39,22 @@ async function run() {
 
         //post reviews using client data (api)
         app.post('/reviews', async (req, res) => {
-            const order = req.body;
-            console.log(order);
-            const result = await reviewCollection.insertOne(order);
+            const reviews = req.body;
+            const result = await reviewCollection.insertOne(reviews);
             res.send(result)
+        });
+
+        //get reviews data from database
+        app.get('/reviews', async (req, res) => {
+            let query = {}; 
+            if (req.query.email) {
+                query = {
+                    email: req.query.email
+                }
+            }
+            const cursor = reviewCollection.find(query);
+            const reviews = await cursor.toArray();
+            res.send(reviews)
         });
 
     }
