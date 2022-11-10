@@ -29,6 +29,13 @@ async function run() {
             res.send({ limitServices, services })
         });
 
+        //post service data from client side
+        app.post('/services', async (req, res) => {
+            const AddService = req.body;
+            const result = await serviceCollection.insertOne(AddService);
+            res.send(result)
+        });
+
         //get particuller service data from database using id
         app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
@@ -69,8 +76,8 @@ async function run() {
                 }
             }
             const cursor = reviewCollection.find(query);
-            const orders = await cursor.toArray();
-            res.send(orders)
+            const reviews = await cursor.toArray();
+            res.send(reviews)
         });
 
     }
